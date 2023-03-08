@@ -48,12 +48,9 @@ const importPlanets = async (planets: any) => {
 const getResources = async () => {
     let residents: any = [];
     for (let page = 1; page < 2; page++) {
-        console.log(page)
         const pageResult = await getResidents(page)
         residents = residents.concat(pageResult.results);
     }
-    console.log(residents)
-    console.log(residents.length)
 
     const enrichedResidents = [];
     for (const resident of residents) {
