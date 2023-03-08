@@ -1,0 +1,39 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider          = "postgresql"
+  url               = "postgres://tina@localhost:5432/tina"
+  shadowDatabaseUrl = "postgres://tina@localhost:5432/tina"
+}
+
+model Planet {
+  id              Int        @id
+  name            String
+  rotation_period String
+  residents       Resident[]
+}
+
+model Specie {
+  id     Int               @id
+  name   String            @db.VarChar(255)
+  people SpeciesOnPeople[]
+}
+
+model Resident {
+  id       Int               @id
+  name     String            @db.VarChar(255)
+  planet   Planet            @relation(fields: [planetId], references: [id])
+  planetId Int
+  species  SpeciesOnPeople[]
+}
+
+model SpeciesOnPeople {
+  people     Resident @relation(fields: [residentId], references: [id])
+  residentId Int
+  Specie     Specie   @relation(fields: [specieId], references: [id])
+  specieId   Int
+
+  @@id([residentId, specieId])
+}
